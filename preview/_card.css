@@ -1,0 +1,60 @@
+@import url("../colors_and_type.css");
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-1);
+  color: var(--fg-1);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  font-smooth: always;
+}
+
+.card {
+  width: 700px;
+  box-sizing: border-box;
+  padding: 24px 28px;
+  background: var(--bg-1);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.row { display: flex; gap: 12px; align-items: center; }
+.grow { flex: 1; }
+.spacer { height: 8px; }
+
+.swatch {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+.swatch-chip {
+  height: 56px;
+  border-radius: 6px;
+  border: 1px solid var(--border-1);
+}
+.swatch-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--fg-1);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.swatch-hex {
+  font-size: 11px;
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+}
+
+.meta {
+  font-size: 11px;
+  color: var(--fg-3);
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}

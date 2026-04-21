@@ -1,0 +1,357 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>NAISS Lab — Slide Templates</title>
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    html, body { margin:0; background: var(--ink-200); font-family: var(--font-sans); }
+    .shell { display:flex; flex-direction:column; align-items:center; padding: 40px 0; gap: 40px; }
+    .slide {
+      width: 1280px; height: 720px;
+      background: var(--bg-1);
+      box-shadow: 0 8px 24px rgba(17,17,16,.10);
+      position: relative;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding: var(--slide-pad-y) var(--slide-pad-x);
+      display: flex; flex-direction: column;
+    }
+    .slide .num { position:absolute; left: 32px; bottom: 22px; font-size: 14px; color: var(--fg-4); font-variant-numeric: tabular-nums; }
+    .slide .footer-cite { position:absolute; right: 32px; bottom: 22px; font-family: var(--font-mono); font-size: 12px; color: var(--fg-3); }
+    .slide .logo { position:absolute; opacity: 1; }
+    .slide h1.title { font-family: var(--font-serif); font-weight: 600; font-size: 52px; line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 8px 0; color: var(--fg-1); }
+    .slide .divider { height: 1px; background: var(--border-1); margin: 14px 0 32px 0; }
+    .accent { color: var(--naiss-green); }
+    .cn { font-family: "Noto Serif SC", var(--font-serif); font-feature-settings: "palt"; }
+    .cn-sans { font-family: "Noto Sans SC", var(--font-sans); }
+
+    /* Decorative corner brackets — Chinese-seal / frame motif */
+    .corner-mark {
+      position:absolute; width: 48px; height: 48px;
+      border: 2px solid var(--naiss-gold);
+    }
+    .corner-mark.tl { top: 36px; left: 36px; border-right: none; border-bottom: none; }
+    .corner-mark.tr { top: 36px; right: 36px; border-left: none; border-bottom: none; }
+    .corner-mark.bl { bottom: 36px; left: 36px; border-right: none; border-top: none; }
+    .corner-mark.br { bottom: 36px; right: 36px; border-left: none; border-top: none; }
+
+    /* Red seal (印章) — classical vermillion stamp */
+    .seal {
+      width: 120px; height: 120px;
+      background: #B8342C;  /* vermillion */
+      color: #fff;
+      font-family: "Noto Serif SC", var(--font-serif);
+      font-weight: 700;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      font-size: 38px;
+      line-height: 1;
+      box-shadow: 0 2px 6px rgba(0,0,0,.15);
+      border: 3px solid #B8342C;
+      transform: rotate(-4deg);
+      position: relative;
+    }
+    .seal::before {
+      content: "";
+      position: absolute; inset: 3px;
+      border: 2px solid #fff;
+      pointer-events: none;
+    }
+    .seal span {
+      display:flex; align-items:center; justify-content:center;
+    }
+
+    /* Giant Chinese watermark character */
+    .cn-watermark {
+      position: absolute;
+      font-family: "Noto Serif SC", var(--font-serif);
+      font-weight: 700;
+      color: var(--naiss-green);
+      opacity: 0.05;
+      font-size: 640px;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Title slide */
+    .slide-title { align-items:center; justify-content:center; text-align:center; }
+    .slide-title .display { font-family: var(--font-serif); font-weight: 600; font-size: 56px; line-height: 1.12; letter-spacing: -0.015em; color: var(--fg-1); max-width: 900px; margin: 0 auto; }
+    .slide-title .display-cn { margin-top: 20px; font-family: "Noto Serif SC", var(--font-serif); font-weight: 600; font-size: 30px; color: var(--naiss-green); letter-spacing: 0.1em; }
+    .slide-title .date { margin-top: 36px; font-size: 22px; color: var(--fg-3); font-family: var(--font-mono); }
+    .slide-title .byline { margin-top: 48px; }
+    .slide-title .byline .name { font-size: 32px; font-weight: 600; color: var(--fg-1); font-family: var(--font-sans); }
+    .slide-title .byline .name .name-cn { font-family: "Noto Serif SC", var(--font-serif); margin-left: 14px; color: var(--fg-2); }
+    .slide-title .byline .role { font-size: 22px; color: var(--fg-2); font-family: var(--font-sans); margin-top: 6px; }
+    .slide-title .byline .aff { font-size: 20px; color: var(--fg-3); font-family: var(--font-sans); margin-top: 4px; }
+
+    /* Section slide: green bg, white serif */
+    .slide-section { background: var(--naiss-green); color: var(--ink-0); justify-content:center; position: relative; overflow: hidden; }
+    .slide-section .eyebrow { font-family: var(--font-mono); font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,.75); margin-bottom: 20px; display:flex; align-items:center; gap: 14px; }
+    .slide-section .eyebrow .cn-label { font-family: "Noto Serif SC", var(--font-serif); font-size: 18px; letter-spacing: 0.2em; text-transform: none; color: rgba(255,255,255,.9); }
+    .slide-section .title { font-family: var(--font-serif); font-weight: 600; font-size: 80px; line-height: 1.05; letter-spacing: -0.015em; color: var(--ink-0); max-width: 960px; }
+    .slide-section .cn-watermark { color: #fff; opacity: 0.08; right: -60px; bottom: -200px; font-size: 720px; }
+
+    /* Content slide generic */
+    .content-body { flex: 1; display:flex; gap: 40px; }
+
+    /* 2-col compare */
+    .col { flex: 1; background: var(--bg-2); border: 1px solid var(--border-1); border-radius: 6px; padding: 28px; display:flex; flex-direction: column; gap: 14px; }
+    .col .col-title { font-size: 24px; font-weight: 600; color: var(--fg-1); font-family: var(--font-sans); }
+    .pro-label { font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--naiss-green); }
+    .con-label { font-family: var(--font-mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--naiss-coral); }
+    .col p { font-size: 20px; color: var(--fg-2); line-height: 1.45; margin: 0; }
+
+    /* Diagram slide */
+    .diagram-row { display:flex; align-items:center; gap: 16px; }
+    .box {
+      padding: 20px 24px; border: 1.5px solid var(--ink-900); border-radius: 6px;
+      background: var(--bg-2); font-family: var(--font-sans); font-size: 22px; font-weight: 500;
+      min-width: 150px; text-align:center;
+    }
+    .box.accent-box { border-color: var(--naiss-green); background: var(--naiss-green-100); color: var(--naiss-green); font-weight: 600; }
+    .arrow svg { display:block; }
+
+    /* Table slide */
+    table.result { border-collapse: collapse; width: 100%; font-family: var(--font-sans); font-size: 22px; }
+    table.result thead th { text-align: left; padding: 14px 14px; border-bottom: 2px solid var(--ink-900); font-weight: 600; font-size: 20px; }
+    table.result td { padding: 14px 14px; border-bottom: 1px solid var(--border-1); font-variant-numeric: tabular-nums; }
+    table.result tr.worst td { color: var(--naiss-coral); }
+    table.result tr.best td { background: var(--naiss-green-100); color: var(--naiss-green); font-weight: 600; }
+
+    /* Big-stat slide */
+    .big-stat { display:flex; flex-direction: column; align-items: center; justify-content:center; flex:1; text-align:center; }
+    .big-stat .value { font-family: var(--font-serif); font-weight: 600; font-size: 200px; line-height: 1; color: var(--naiss-green); letter-spacing: -0.03em; }
+    .big-stat .unit { font-family: var(--font-sans); font-size: 32px; color: var(--fg-2); margin-top: 16px; }
+    .big-stat .src { font-family: var(--font-mono); font-size: 16px; color: var(--fg-3); margin-top: 32px; }
+
+    /* Quote slide */
+    .quote { flex:1; display:flex; flex-direction:column; justify-content:center; max-width: 1000px; }
+    .quote-mark { font-family: var(--font-serif); font-size: 140px; color: var(--naiss-green); line-height: 0.5; margin-bottom: 32px; }
+    .quote-text { font-family: var(--font-serif); font-weight: 400; font-size: 54px; line-height: 1.2; color: var(--fg-1); letter-spacing: -0.01em; }
+    .quote-attr { margin-top: 32px; font-family: var(--font-sans); font-size: 20px; color: var(--fg-3); }
+
+    /* Thanks / people slide */
+    .people { display:grid; grid-template-columns: repeat(4, 1fr); gap: 28px 24px; }
+    .person { display:flex; flex-direction:column; gap: 10px; align-items:center; text-align:center; }
+    .person .avatar { width: 130px; height: 130px; border-radius: 50%; background: var(--ink-200); border: 2px solid var(--ink-0); box-shadow: 0 1px 3px rgba(0,0,0,.10); display:flex; align-items:center; justify-content:center; font-family: var(--font-serif); font-weight: 600; font-size: 44px; color: var(--ink-400); overflow:hidden; }
+    .person .pname { font-size: 18px; font-weight: 600; color: var(--fg-1); }
+    .person .paff { font-size: 14px; color: var(--fg-3); font-family: var(--font-mono); }
+
+    /* Agenda / list slide */
+    .agenda { display:flex; flex-direction: column; gap: 8px; }
+    .agenda-item { display:flex; align-items:flex-start; gap: 22px; padding: 18px 0; border-bottom: 1px solid var(--border-1); }
+    .agenda-num { font-family: var(--font-mono); font-size: 16px; color: var(--fg-4); min-width: 48px; padding-top: 6px; font-variant-numeric: tabular-nums; }
+    .agenda-text { font-family: var(--font-sans); font-size: 28px; color: var(--fg-1); font-weight: 500; }
+    .agenda-text .sub { display:block; font-weight: 400; font-size: 18px; color: var(--fg-3); margin-top: 6px; }
+
+    /* Closing / Q&A */
+    .slide-close { align-items:center; justify-content:center; text-align:center; position: relative; }
+    .slide-close .pretitle { font-family: var(--font-serif); font-size: 36px; color: var(--fg-3); font-weight: 400; font-style: italic; }
+    .slide-close .bigq { font-family: var(--font-serif); font-size: 120px; font-weight: 600; color: var(--fg-1); letter-spacing: -0.02em; margin-top: 20px; }
+    .slide-close .bigq-cn { font-family: "Noto Serif SC", var(--font-serif); font-size: 40px; color: var(--naiss-green); margin-top: 12px; letter-spacing: 0.15em; }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- 1. Title slide -->
+  <div class="slide slide-title" data-screen-label="01 Title">
+    <img class="logo" src="../assets/naiss-lab-logo.png" style="height:100px;top:44px;left:52px">
+    <img class="logo" src="../assets/hku-logo.jpg" style="height:72px;top:52px;right:52px">
+    <div class="corner-mark tl" style="top:180px;left:80px;width:28px;height:28px;opacity:.6"></div>
+    <div class="corner-mark br" style="bottom:200px;right:80px;width:28px;height:28px;opacity:.6"></div>
+    <div>
+      <div class="display">The Promise of Generative Synthetic Data for <span class="accent">Networked Intelligent Systems</span></div>
+      <div class="display-cn">生成式合成数据 · 网络智能系统</div>
+      <div class="date">April 21, 2026 · Harvard AI &amp; Robotics Seminar</div>
+      <div class="byline">
+        <div class="name">Shinan Liu<span class="name-cn">刘诗楠</span></div>
+        <div class="role">Assistant Professor</div>
+        <div class="aff">Department of Data and Systems Engineering · University of Hong Kong 香港大学</div>
+      </div>
+    </div>
+    <div class="num">01</div>
+  </div>
+
+  <!-- 2. Agenda -->
+  <div class="slide" data-screen-label="02 Agenda">
+    <h1 class="title">In this talk, we'll answer&hellip;</h1>
+    <div class="divider"></div>
+    <div class="agenda">
+      <div class="agenda-item"><div class="agenda-num">01</div><div class="agenda-text">How to create synthetic data with high utility? <span class="sub">NetDiffusion · NetSSM · protocol-constrained generation</span></div></div>
+      <div class="agenda-item"><div class="agenda-num">02</div><div class="agenda-text">How can synthetic data cut the end-to-end system cost of downstream ML applications? <span class="sub">NetGuard · generative compression · drift adaptation</span></div></div>
+      <div class="agenda-item" style="border-bottom:none"><div class="agenda-num">03</div><div class="agenda-text">Vision: data and systems foundations for AI for Ops. <span class="sub">Beyond networking</span></div></div>
+    </div>
+    <div class="num">02</div>
+    <div class="footer-cite">[SIGMETRICS'24 · HotNets'23 · CoNEXT'26 · NDSS'25]</div>
+  </div>
+
+  <!-- 3. Section header -->
+  <div class="slide slide-section" data-screen-label="03 Section">
+    <div class="cn-watermark">数</div>
+    <div style="display:flex;flex-direction:column;position:relative;z-index:1">
+      <div class="eyebrow">
+        <span>Part 1 · Data bottleneck</span>
+        <span style="width:1px;height:16px;background:rgba(255,255,255,.3)"></span>
+        <span class="cn-label">第一部分 · 数据瓶颈</span>
+      </div>
+      <div class="title">AI for operational data is a <span style="text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 8px;">challenging problem.</span></div>
+    </div>
+    <div class="num" style="color: rgba(255,255,255,.5)">03</div>
+  </div>
+
+  <!-- 4. Two-column compare -->
+  <div class="slide" data-screen-label="04 Compare">
+    <h1 class="title">Existing generators either can't capture real-world complexity <br>or are too <span class="accent">coarse-grained</span>.</h1>
+    <div class="divider"></div>
+    <div class="content-body">
+      <div class="col">
+        <div class="col-title">Heuristics-based methods</div>
+        <div><div class="pro-label">Pros</div><p>Fine-grained, highly controllable.</p></div>
+        <div><div class="con-label">Cons</div><p>Can't simulate real-world complexity.</p></div>
+      </div>
+      <div class="col">
+        <div class="col-title">GAN-based methods</div>
+        <div><div class="pro-label">Pros</div><p>Learnt complexity.</p></div>
+        <div><div class="con-label">Cons</div><p>Coarse-grained output. No protocol constraints.</p></div>
+      </div>
+      <div class="col" style="border-color: var(--naiss-green); background: var(--naiss-green-100);">
+        <div class="col-title accent">Our work — NetDiffusion</div>
+        <div><div class="pro-label">Pros</div><p>Both fine-grained and learnt complexity. Protocol-aware.</p></div>
+        <div><div class="con-label" style="color:var(--fg-3)">Cons</div><p style="color: var(--fg-3)">Requires one example as prior.</p></div>
+      </div>
+    </div>
+    <div class="num">04</div>
+    <div class="footer-cite">[SIGCOMM NAIC'24] Chu et al. Feasibility of SSMs for Traffic Generation</div>
+  </div>
+
+  <!-- 5. Diagram / pipeline -->
+  <div class="slide" data-screen-label="05 Diagram">
+    <h1 class="title">NetDiffusion aligns generation with <span class="accent">network protocols</span>.</h1>
+    <div class="divider"></div>
+    <div class="content-body" style="align-items:center;justify-content:space-evenly;flex-direction:column;padding:8px 0">
+      <!-- Top row: main pipeline -->
+      <div style="display:flex;align-items:center;gap:24px">
+        <div class="box" style="font-size:26px;padding:32px 36px;min-width:260px">
+          <div>Text Description</div>
+          <div style="font-size:17px;font-family:var(--font-mono);color:var(--fg-3);font-weight:400;margin-top:6px">'type-0, Amazon'</div>
+        </div>
+        <svg width="88" height="32"><line x1="2" y1="16" x2="68" y2="16" stroke="#111110" stroke-width="2.5"/><polygon points="68,4 86,16 68,28" fill="#111110"/></svg>
+        <div class="box accent-box" style="font-size:30px;padding:40px 44px;min-width:280px;box-shadow:0 4px 16px rgba(18,73,61,.12)">NetDiffusion</div>
+        <svg width="88" height="32"><line x1="2" y1="16" x2="68" y2="16" stroke="#111110" stroke-width="2.5"/><polygon points="68,4 86,16 68,28" fill="#111110"/></svg>
+        <div class="box" style="font-size:26px;padding:32px 36px;min-width:200px">PCAP</div>
+      </div>
+
+      <!-- Inner components label -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;max-width:1100px">
+        <div style="display:flex;align-items:center;gap:16px;width:100%;font-family:var(--font-mono);font-size:14px;color:var(--fg-3);text-transform:uppercase;letter-spacing:0.15em">
+          <div style="flex:1;height:1px;background:var(--border-1)"></div>
+          <span>Three internal components</span>
+          <div style="flex:1;height:1px;background:var(--border-1)"></div>
+        </div>
+        <div style="display:flex;gap:28px;width:100%">
+          <div class="box" style="flex:1;font-size:22px;padding:26px 22px;text-align:center;border-color:var(--naiss-green-400)">
+            <div style="font-weight:600;margin-bottom:10px;color:var(--naiss-green)">Controlled Generation</div>
+            <div style="font-family:var(--font-mono);color:var(--fg-3);font-size:16px;font-weight:400">ControlNet</div>
+          </div>
+          <div class="box" style="flex:1;font-size:22px;padding:26px 22px;text-align:center;border-color:var(--naiss-green-400)">
+            <div style="font-weight:600;margin-bottom:10px;color:var(--naiss-green)">Post-gen Verification</div>
+            <div style="font-family:var(--font-mono);color:var(--fg-3);font-size:16px;font-weight:400">Protocol rules</div>
+          </div>
+          <div class="box" style="flex:1;font-size:22px;padding:26px 22px;text-align:center;border-color:var(--naiss-green-400)">
+            <div style="font-weight:600;margin-bottom:10px;color:var(--naiss-green)">Fine-tuning</div>
+            <div style="font-family:var(--font-mono);color:var(--fg-3);font-size:16px;font-weight:400">Latent Diffusion</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="num">05</div>
+    <div class="footer-cite">[SIGMETRICS'24] NetDiffusion</div>
+  </div>
+
+  <!-- 6. Table -->
+  <div class="slide" data-screen-label="06 Results table">
+    <h1 class="title">Statistical similarity between real vs. generated traces.</h1>
+    <div class="divider"></div>
+    <div class="content-body" style="flex-direction:column;gap:16px">
+      <table class="result">
+        <thead><tr><th>Data format</th><th>Method</th><th style="text-align:right">All features</th><th style="text-align:right">Common features</th></tr></thead>
+        <tbody>
+          <tr><td>NetFlow (coarse)</td><td>Random</td><td style="text-align:right">0.67</td><td style="text-align:right">0.82</td></tr>
+          <tr><td>NetFlow (coarse)</td><td>NetShare [SIGCOMM'22]</td><td style="text-align:right">0.16</td><td style="text-align:right">0.04</td></tr>
+          <tr class="worst"><td>PCAP (fine)</td><td>Random</td><td style="text-align:right">0.82</td><td style="text-align:right">0.83</td></tr>
+          <tr class="best"><td>PCAP (fine)</td><td>NetDiffusion (ours)</td><td style="text-align:right">0.04</td><td style="text-align:right">0.02</td></tr>
+        </tbody>
+      </table>
+      <div style="font-family:var(--font-sans);font-style:italic;font-size:16px;color:var(--fg-3)">Similarity score in average Jensen–Shannon distance. The smaller, the better.</div>
+    </div>
+    <div class="num">06</div>
+  </div>
+
+  <!-- 7. Big stat -->
+  <div class="slide" data-screen-label="07 Big stat">
+    <h1 class="title">It reduces storage cost by <span class="accent">82%</span> compared to Gzip.</h1>
+    <div class="divider"></div>
+    <div class="big-stat">
+      <div class="value">82<span style="font-size:96px">%</span></div>
+      <div class="unit">reduction vs. Gzip on long-term network trace retention</div>
+      <div class="src">[NDSS WOSOC'25] Deep Generative Compression — Stay tuned for our full paper.</div>
+    </div>
+    <div class="num">07</div>
+  </div>
+
+  <!-- 8. Quote / insight -->
+  <div class="slide" data-screen-label="08 Quote">
+    <div class="quote">
+      <div class="quote-mark">&ldquo;</div>
+      <div class="quote-text">Instead of the raw data, we store the <span class="accent">model weights</span>.</div>
+      <div class="quote-attr">— Our solution: let the model be the data proxy.</div>
+    </div>
+    <div class="num">08</div>
+    <div class="footer-cite">[NDSS WOSOC'25]</div>
+  </div>
+
+  <!-- 9. People / thanks -->
+  <div class="slide" data-screen-label="09 Thanks">
+    <h1 class="title">Shout-out to my collaborators.</h1>
+    <div class="divider"></div>
+    <div class="content-body" style="flex-direction:column;gap:32px;padding-top:16px">
+      <div class="people">
+        <div class="person"><div class="avatar">AC</div><div class="pname">Andrew Chu</div><div class="paff">@ UChicago</div></div>
+        <div class="person"><div class="avatar">XJ</div><div class="pname">Xi Jiang</div><div class="paff">@ UChicago</div></div>
+        <div class="person"><div class="avatar">RG</div><div class="pname">Ragini Gupta</div><div class="paff">@ UIUC</div></div>
+        <div class="person"><div class="avatar">FD</div><div class="pname">Fenghao Dong</div><div class="paff">@ CMU</div></div>
+        <div class="person"><div class="avatar">KN</div><div class="pname">Prof. Klara Nahrstedt</div><div class="paff">@ UIUC</div></div>
+        <div class="person"><div class="avatar">VS</div><div class="pname">Prof. Vyas Sekar</div><div class="paff">@ CMU</div></div>
+        <div class="person"><div class="avatar">NF</div><div class="pname">Prof. Nick Feamster</div><div class="paff">@ UChicago</div></div>
+        <div class="person"><div class="avatar">+</div><div class="pname">Student leaders</div><div class="paff">NAISS Lab · HKU</div></div>
+      </div>
+    </div>
+    <div class="num">09</div>
+  </div>
+
+  <!-- 10. Closing / Q&A -->
+  <div class="slide slide-close" data-screen-label="10 Questions">
+    <img class="logo" src="../assets/naiss-lab-logo.png" style="height:110px;top:48px;right:52px">
+    <!-- Red seal stamp, bottom-left -->
+    <div class="seal" style="position:absolute;bottom:72px;left:72px">
+      <span>明</span><span>德</span><span>格</span><span>物</span>
+    </div>
+    <div style="margin-top:-40px">
+      <div class="pretitle">The Promise of Generative Synthetic Data for Networked Intelligent Systems</div>
+      <div class="bigq">Any questions?</div>
+      <div class="bigq-cn">欢迎提问</div>
+      <div style="font-family:var(--font-mono);color:var(--fg-3);font-size:18px;margin-top:52px">shinan6@hku.hk · shinan.info</div>
+    </div>
+    <div class="num">10</div>
+  </div>
+
+</div>
+</body>
+</html>
